@@ -17,9 +17,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
+    
+    NSArray *arr = @[@(0), @(1)];
+    NSLog(@"%@", arr[2]); //模拟越界异常
     return YES;
 }
 
+void UncaughtExceptionHandler(NSException *exception) {
+    NSArray *arr = [exception callStackSymbols];
+    NSString *reason = [exception reason];
+    NSString *name = [exception name];
+//    NSLog(@"=======%@\n%@\n%@",arr, reason, name);
+    NSLog(@"=======%@", reason);
+    NSLog(@"=======%@", name);
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
